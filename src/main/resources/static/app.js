@@ -8,6 +8,12 @@ var app = (function () {
     }
 
     var stompClient = null;
+    
+    var can = null;
+    var rect = null;
+    var ctx = null;
+    var stompClient = null;
+    var id = null;
 
     var addPointToCanvas = function (point) {
         var canvas = document.getElementById("canvas");
@@ -36,7 +42,7 @@ var app = (function () {
         //subscribe to /topic/TOPICXX when connections succeed
         stompClient.connect({}, function (frame) {
             console.log('Connected: ' + frame);
-            stompClient.subscribe('/topic/newpoint', function (eventbody) {
+            stompClient.subscribe('/topic/newpoint'+id, function (eventbody) {
                 
                 var theObject = JSON.parse(eventbody.body);
                 
@@ -58,8 +64,16 @@ var app = (function () {
     return {
 
         init: function () {
+            
             var can = document.getElementById("canvas");
-
+            //id=0;
+            //websocket connection
+            //connectAndSubscribe();
+        },
+        
+        connect: function (idDraw) {
+            
+            id=idDraw;
             //websocket connection
             connectAndSubscribe();
         },
